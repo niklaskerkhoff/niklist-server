@@ -1,7 +1,7 @@
-package de.nikstack.niklist_server.modules.simple_user
+package de.nikstack.niklist_server.modules.entry
 
 import de.nikstack.niklist_server.lib.spring.entities.EntityRepo
 import org.springframework.stereotype.Repository
 
 @Repository
-interface UserRepo : EntityRepo<AppUser>
+interface EntryRepo : EntityRepo<Entry>

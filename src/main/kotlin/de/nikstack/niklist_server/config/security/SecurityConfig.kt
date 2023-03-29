@@ -1,4 +1,4 @@
-package de.nikstack.niklist_server.security_config
+package de.nikstack.niklist_server.config.security
 
 import de.nikstack.niklist_server.lib.spring.security.core.UserBasicService
 import de.nikstack.niklist_server.modules.simple_user.UserService
@@ -42,7 +42,7 @@ class SecurityConfig(
     fun userBasicService(): UserBasicService {
         return object : UserBasicService {
             override fun getUserDetailsByEmail(email: String): UserDetails {
-                val user = userService.getUserByEMail(email)
+                val user = userService.getUserByEmail(email)
                     ?: throw UsernameNotFoundException("User not found")
                 return SecurityUser(user)
             }

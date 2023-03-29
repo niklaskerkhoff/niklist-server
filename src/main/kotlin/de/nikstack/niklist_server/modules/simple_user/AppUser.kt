@@ -4,7 +4,7 @@ import de.nikstack.niklist_server.lib.spring.entities.AppEntity
 import jakarta.persistence.Entity
 
 @Entity
-class User(
+class AppUser(
     var email: String,
     var name: String,
     var role: UserRole,

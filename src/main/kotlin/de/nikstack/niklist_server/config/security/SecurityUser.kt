@@ -1,11 +1,11 @@
-package de.nikstack.niklist_server.security_config
+package de.nikstack.niklist_server.config.security
 
-import de.nikstack.niklist_server.modules.simple_user.User
+import de.nikstack.niklist_server.modules.simple_user.AppUser
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
-data class SecurityUser(private val user: User) : UserDetails {
+data class SecurityUser(private val user: AppUser) : UserDetails {
     override fun getAuthorities(): Collection<GrantedAuthority?> {
         val authority = SimpleGrantedAuthority(user.role.name)
         return listOf(authority)

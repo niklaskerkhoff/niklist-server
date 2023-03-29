@@ -5,4 +5,4 @@ import org.springframework.data.repository.NoRepositoryBean
 import java.util.*
 
 @NoRepositoryBean
-interface AppEntityRepo<E> : JpaRepository<E, UUID>
+interface EntityRepo<E> : JpaRepository<E, UUID>

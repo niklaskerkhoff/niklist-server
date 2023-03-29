@@ -7,11 +7,11 @@ class UserService(
     private val userRepo: UserRepo
 ) {
 
-    fun getUserByEMail(email: String): User? {
+    fun getUserByEmail(email: String): AppUser? {
         TODO("Not yet implemented")
     }
 
-    fun addUser(email: String): User {
+    fun addUser(email: String): AppUser {
         TODO("Not yet implemented")
     }
 }

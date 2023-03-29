@@ -9,10 +9,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.LocalDateTime
 import java.util.*
 
+
 @Entity
 @EntityListeners(AuditingEntityListener::class)
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-open class AppEntity {
+abstract class AppEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     open val id: UUID? = null
