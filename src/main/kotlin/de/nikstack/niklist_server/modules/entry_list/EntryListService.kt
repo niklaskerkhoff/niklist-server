@@ -2,7 +2,7 @@ package de.nikstack.niklist_server.modules.entry_list
 
 import de.nikstack.niklist_server.lib.spring.entities.findByIdOrThrow
 import de.nikstack.niklist_server.lib.spring.ensureCreatedByCurrentUser
-import de.nikstack.niklist_server.lib.spring.getCurrentUser
+import de.nikstack.niklist_server.lib.spring.getCurrentUserEmail
 import de.nikstack.niklist_server.lib.spring.mails.SimpleMailServer
 import de.nikstack.niklist_server.modules.simple_user.UserService
 import org.springframework.http.HttpStatus
@@ -18,7 +18,7 @@ class EntryListService(
 ) {
 
     fun getAll(): List<EntryList> {
-        val email = getCurrentUser()
+        val email = getCurrentUserEmail()
         val ownLists = entryListRepo.findAllByCreatedBy(email)
         val accessLists = entryListRepo.findAllByAccessesUserEmail(email)
         return ownLists + accessLists

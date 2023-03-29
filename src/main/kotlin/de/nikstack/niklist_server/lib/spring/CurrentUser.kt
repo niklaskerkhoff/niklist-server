@@ -5,11 +5,11 @@ import org.springframework.http.HttpStatus
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.server.ResponseStatusException
 
-fun getCurrentUser(): String =
+fun getCurrentUserEmail(): String =
     SecurityContextHolder.getContext().authentication.name
 
 fun AppEntity.isCreatedByCurrentUser() =
-    this.createdBy == getCurrentUser()
+    this.createdBy == getCurrentUserEmail()
 
 fun AppEntity.isNotCreatedByCurrentUser() =
     !isCreatedByCurrentUser()
