@@ -3,7 +3,9 @@ package de.nikstack.niklist_server.modules.entry_list
 import de.nikstack.niklist_server.lib.spring.entities.findByIdOrThrow
 import de.nikstack.niklist_server.lib.spring.ensureCreatedByCurrentUser
 import de.nikstack.niklist_server.lib.spring.getCurrentUserEmail
-import de.nikstack.niklist_server.lib.spring.mails.SimpleMailServer
+import de.nikstack.niklist_server.lib.spring.mails.SimpleMailService
+import de.nikstack.niklist_server.modules.entry.EntryService
+import de.nikstack.niklist_server.modules.entry.EntrySimpleData
 import de.nikstack.niklist_server.modules.simple_user.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -14,7 +16,8 @@ import java.util.*
 class EntryListService(
     private val entryListRepo: EntryListRepo,
     private val userService: UserService,
-    private val simpleMailServer: SimpleMailServer
+    private val simpleMailService: SimpleMailService,
+    private val entryService: EntryService
 ) {
 
     fun getAll(): List<EntryList> {
@@ -34,6 +37,7 @@ class EntryListService(
         val list = EntryList(
             saveName,
             color,
+            mutableListOf(),
             emptyList()
         )
         return entryListRepo.save(list)
@@ -74,6 +78,16 @@ class EntryListService(
         return entryListRepo.save(list)
     }
 
+    fun addEntry(listId: UUID, addEntry: EntrySimpleData): EntryList {
+        val list = entryListRepo.findByIdOrThrow(listId)
+        list.ensureCreatedByCurrentUser()
+
+        val entry = entryService.add(addEntry)
+        list.entries.add(entry)
+
+        return entryListRepo.save(list)
+    }
+
     private fun getTrimmedNotEmptyOrThrow(name: String): String {
         val saveName = name.trim()
         if (saveName.isEmpty())
@@ -110,10 +124,10 @@ class EntryListService(
 
     private fun sendMailToNewAccesses(newAccesses: List<EntryListAccess>) {
         newAccesses.forEach {
-            simpleMailServer.sendMail(
+            simpleMailService.sendMail(
                 it.user.email,
-                "Dir wurde eine Niklist zugewiesen",
-                "Du hast Zugriff auf eine Niklist erhalten. " +
+                "Geteilte Liste",
+                "Du hast Zugriff auf eine Liste erhalten. " +
                         "Gehe in die App, um sie dir anzusehen"
             )
         }

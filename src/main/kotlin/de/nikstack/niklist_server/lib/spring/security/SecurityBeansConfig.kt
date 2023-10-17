@@ -2,8 +2,8 @@ package de.nikstack.niklist_server.lib.spring.security
 
 import com.nimbusds.jose.jwk.source.ImmutableSecret
 import com.nimbusds.jose.proc.SecurityContext
-import de.nikstack.niklist_server.lib.spring.security.core.CookieTokenExtractor
-import de.nikstack.niklist_server.lib.spring.security.core.UserBasicService
+import de.nikstack.niklist_server.lib.spring.security.mail_login.core.CookieTokenExtractor
+import de.nikstack.niklist_server.lib.spring.security.mail_login.core.MailLoginUserService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -11,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.ProviderManager
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.jwt.JwtEncoder
@@ -22,7 +23,7 @@ import javax.crypto.spec.SecretKeySpec
 
 @Configuration
 class SecurityBeansConfig(
-    private val userBasicService: UserBasicService
+    private val mailLoginUserService: MailLoginUserService
 ) {
     @Value("\${app.jwtSecret}")
     private lateinit var jwtSecret: String
@@ -41,7 +42,8 @@ class SecurityBeansConfig(
     @Bean
     fun userDetailsService(): UserDetailsService {
         return UserDetailsService { email ->
-            userBasicService.getUserDetailsByEmail(email)
+            mailLoginUserService.getUserDetailsByEmail(email)
+                ?: throw UsernameNotFoundException("User not found")
         }
     }
 

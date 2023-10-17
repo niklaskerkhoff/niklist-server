@@ -11,9 +11,5 @@ class Entry(
     var title: String,
     var description: String,
     var done: Boolean,
-
-    @ManyToOne
-    var list: EntryList,
-
-    var deadline: LocalDateTime? = null
+    var deadline: LocalDateTime? = null,
 ) : AppEntity()

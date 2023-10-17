@@ -1,6 +1,7 @@
 package de.nikstack.niklist_server.modules.entry
 
 import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -15,9 +16,6 @@ import java.util.*
 class EntryController(
     private val entryService: EntryService
 ) {
-    @PostMapping
-    fun add(@RequestBody entry: EntrySimpleData) =
-        entryService.add(entry.listId, entry.title)
 
     @PutMapping("{id}")
     fun update(@PathVariable id: UUID, @RequestBody entry: EntrySimpleData) =

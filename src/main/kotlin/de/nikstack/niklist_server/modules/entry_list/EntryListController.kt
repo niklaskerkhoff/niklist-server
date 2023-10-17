@@ -1,5 +1,6 @@
 package de.nikstack.niklist_server.modules.entry_list
 
+import de.nikstack.niklist_server.modules.entry.EntrySimpleData
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
@@ -28,4 +29,10 @@ class EntryListController(
 
     @DeleteMapping("{id}")
     fun delete(@PathVariable id: UUID) = entryListService.delete(id)
+
+    @PostMapping("{id}/entry")
+    fun addEntry(
+        @PathVariable id: UUID,
+        @RequestBody addEntry: EntrySimpleData
+    ) = entryListService.addEntry(id, addEntry)
 }
